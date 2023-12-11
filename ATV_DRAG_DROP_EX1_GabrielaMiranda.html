@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Exemplo 1 </title>
+    <style> 
+    
+    .album{
+        display: flex;
+        flex-direction: row;
+        padding: 20px;
+        gap: 50px;
+    }
+
+    body {
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+.album {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  color: #ff66b2;
+}
+
+.capa-album img {
+  width: 100%;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.colunas {
+  background-color: #fafafa;
+}
+
+#bloco {
+  background-color: #ffccff;
+  border: 1px solid #ff66b2;
+
+    
+    </style>
+</head>
+<body>
+
+    <h1> Organize as músicas dos álbums! </h1>
+
+    <div class="album"> 
+      <h2> Speak Now </h2>   
+            <div class="colunas">  
+                 
+         <p id="bloco" draggable="true"> no body no crime </p>
+         <p id="bloco" draggable="true"> 22 </p>
+         <p id="bloco" draggable="true"> All too well </p>
+         <p id="bloco" draggable="true"> marjorie </p>
+            </div>
+
+
+            <h2> evermore </h2>   
+            <div class="colunas">  
+                <p id="bloco" draggable="true"> mine </p>
+                <p id="bloco" draggable="true"> the moment i knew </p>
+                <p id="bloco" draggable="true"> long live </p>
+                <p id="bloco" draggable="true"> i knew you were trouble </p>
+                   </div>
+
+                   <h2> RED </h2>   
+        <div class="colunas">  
+             
+        <p id="bloco" draggable="true"> willow </p>
+        <p id="bloco" draggable="true"> tis the damn season </p>
+        <p id="bloco" draggable="true"> sparks fly </p>
+        <p id="bloco" draggable="true"> better than revenge  </p>
+         </div>
+        </div>
+
+     <script> 
+     
+        let colunas = document.querySelectorAll(".colunas");  //selecione todos os elementos da classe coluna e armazena na variavel
+
+        document.addEventListener("dragstart", (e) => {  //começo do evento de arrastar 
+          e.target.classList.add("dragging"); // add a classe dragging ao elemento 
+        });
+        
+        document.addEventListener("dragend", (e) => {  
+          e.target.classList.remove("dragging"); //remove a classe draggign do elemento arrastado 
+        });
+        
+        colunas.forEach((bloco) => {
+          bloco.addEventListener("dragover", (e) => {
+            const dragging = document.querySelector(  ".dragging"); //pega o element arrastado 
+            const applyAfter = getNewPosition(bloco, e.clientY);
+        
+            if (applyAfter) {
+              applyAfter.insertAdjacentElement("afterend", dragging);
+            } else {
+              bloco.prepend(dragging);
+            }
+          });
+        });
+        
+        function getNewPosition(colunas, posY) { //funcao para pegar a nova posicao 
+          let cards = colunas.querySelectorAll(".item:not(.dragging)");
+          let result;
+        
+          for (let refer_card of cards) { 
+            const box = refer_card.getBoundingClientRect();
+            const boxCenterY = box.y + box.height / 2;      //calcula o valor central vertical coord y do retângulo em torno do elemento
+        
+            if (posY >= boxCenterY) result = refer_card; 
+          } //coordenada Y do evento for maior ou igual ao valor central vertical do retângulo, a variável result é atribuída ao elemento atual
+        
+          return result;
+        }
+        </script>   
+</body>
+</html>

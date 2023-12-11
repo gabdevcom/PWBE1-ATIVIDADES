@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo 2</title>
+    <style>
+        .coluna {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            min-height: 100px;
+        }
+
+        .item {
+            background-color: #f1f1f1;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: grab;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lista de afazeres</h1>
+    <h2>Importantes</h2>
+    <div class="coluna" id="importante-coluna" ondrop="drop(event)" ondragover="allowDrop(event)">
+    </div>
+    <h2>Menos importantes</h2>
+    <div class="coluna" id="menos-importante-coluna" ondrop="drop(event)" ondragover="allowDrop(event)">
+    </div>
+    <h2>Se sobrar tempo</h2>
+    <div class="coluna" id="sobrar-tempo-coluna" ondrop="drop(event)" ondragover="allowDrop(event)">
+    </div>
+
+    <p class="item" id="item1" draggable="true" ondragstart="drag(event)">Lavar a louça</p>  <!--o usuario que vai começar a arrastar o elemento-->
+    <p class="item" id="item2" draggable="true" ondragstart="drag(event)">Limpar o quarto</p>
+    <p class="item" id="item3" draggable="true" ondragstart="drag(event)">Fazer as unhas</p>
+    <p class="item" id="item4" draggable="true" ondragstart="drag(event)">Terminar de assistir Criminal Minds</p>
+    <p class="item" id="item5" draggable="true" ondragstart="drag(event)">Passar pano no chão</p>
+    <p class="item" id="item6" draggable="true" ondragstart="drag(event)">Estudar para prova</p>
+
+    <script>
+        function allowDrop(event) {
+            event.preventDefault(); //previne q o navegador solte o elemento e permitir que o elemento seja arrastado 
+        }                                               
+
+        function drag(event) { //arastar o elemento para a coluna 
+            event.dataTransfer.setData("text", event.target.id);
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            var data = event.dataTransfer.getData("text");  // transferir o elemeno para a coluna 
+            var draggedElement = document.getElementById(data);
+            event.target.appendChild(draggedElement);
+        }
+    </script>
+</body>
+</html>

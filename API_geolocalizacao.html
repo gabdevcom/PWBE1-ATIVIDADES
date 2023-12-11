@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Document</title>
+    <style> 
+    #map{
+        width: 100%;
+        height: 400px;;
+    }
+    </style>
+</head>
+<body>
+
+    <p> Latitude:  <span id="latitude"> </span> </p>
+    <p> Longetitude:  <span id="longitude"> </span> </p>
+    <div id="map"> </div>
+    <button onclick="getLocation()"> encontrar localização</button>
+    <script>
+    let map;
+
+        function initMap(latitude, longitude){
+            if(!isNaN(parseFloat(latitude)) && !isNaN(parseFloat(longitude))){
+            map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: parseFloat(latitude), lng: parseFloat(longitude)}, zoom:12});
+        
+        new google.maps.Map.Marker({
+            position: {lat:parseFloat(latitude), lng: parseFloat(longitude)},
+            map: map,
+            title: 'Sua localização'
+        });
+            }else{
+                alert('coordenadas invalidas');
+            }
+
+}
+
+    function getLocation(){
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        }else {
+            alert('geolocalização não é suportada por este navegador');
+        }
+     }
+    
+
+        function showPosition(position){
+            const latitudeElement = document.getElementById('latitude');
+            const longitudeElement = document.getElementById('longitude');
+
+            latitudeElement.innerHTML = position.coords.latitude;
+            longitudeElement.innerHTML = position.coords.longitude;
+            alert('aqui!');
+            initMap(position.coords.latitude, position.coords.longitude);
+        }
+function  showError(error){
+    switch(error, code){
+        case error.PERMISSION_DENIED:
+        alert('Permissao foi negada para o usuario');
+        break;
+        case error.POSITION_UNAVAILABLE:
+        alert('informações de localização indisponiveis');
+        break;
+        case error.TIMEOUT:
+        alert('tempo esgotado');
+        break;
+        case error.UNKNOWN_ERROR:
+        alert('ocorreu um erro desconhecido');
+        break;
+    }
+}
+    </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdfBYYE1-7ySvwHAO0Pc4XQV4qFyBJcuY&callback=initMap"></script>
+
+
+</body>
+</html>
